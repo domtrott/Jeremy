@@ -25,24 +25,16 @@ public class Screen extends JPanel{
 	public static ArrayList<Poly3D> poly3Ds = new ArrayList<Poly3D>();
 	boolean w, a, s, d, e, q;
 	
-	private String nickname;
-	private Integer shipIndex = null;
-	private boolean pilot;
-	private boolean selfDestruct = false;
-	private int destructCount = 1;
 	private boolean crosshair;
 	private boolean debug = false;
-	private int asteroidCount = 0;
 	
 	/**
 	 * Creates a new Screen object
 	 * @param nickname The nickname of the user who is the pilot of the ship
 	 * @param pilot Whether this user is the pilot or the engineer
 	 */
-	public Screen(String nickname, boolean pilot, boolean crosshair){
+	public Screen(String nickname, boolean crosshair){
 		
-		this.nickname = nickname;
-		this.pilot = pilot;
 		this.crosshair = crosshair;
 		
 		//Create starting vectors
@@ -97,10 +89,6 @@ public class Screen extends JPanel{
 //		System.out.println("Predicted Polygons: " + asteroidCount * 4 * 27);
 //		System.out.println("Actual Number: " + poly3Ds.size());
 		
-		warningLight(g);
-		
-		
-		
 		//Draw debugging information
 		Vector camCoords = Matrix.multiplyVector(cameraSystem, new Vector(0, 0, 0));
 		g.setColor(Color.WHITE);
@@ -119,45 +107,6 @@ public class Screen extends JPanel{
 		}
         
 		sleepAndRefresh();
-	}
-	
-	/**
-	 * If the ship is about to be destroyed the screen will fade in and out a red light
-	 * @param g Graphics object to use
-	 */
-	private void warningLight(Graphics g) {
-		if(selfDestruct){
-			if(destructCount <= 10){
-				Color warning = new Color(255 * destructCount / 10, 0, 0, 100);
-				g.setColor(warning);
-				g.fillRect(0, 0, (int)getWidth(), (int)getHeight());
-				destructCount++;
-			}
-			else if(destructCount > 10 && destructCount <= 20){
-				Color warning = new Color(255, 0, 0, 100);
-				g.setColor(warning);
-				g.fillRect(0, 0, (int)getWidth(), (int)getHeight());
-				destructCount++;
-			}
-			else if(destructCount > 20 && destructCount <= 30){
-				Color warning = new Color(255 * (30 - destructCount) / 10, 0, 0, 100);
-				g.setColor(warning);
-				g.fillRect(0, 0, (int)getWidth(), (int)getHeight());
-				destructCount++;
-			}
-			else if(destructCount > 30 && destructCount <= 40){
-				Color warning = new Color(25, 0, 0, 100);
-				g.setColor(warning);
-				g.fillRect(0, 0, (int)getWidth(), (int)getHeight());
-				destructCount++;
-			}
-			else{
-				destructCount = 1;
-				Color warning = new Color(25, 0, 0, 100);
-				g.setColor(warning);
-				g.fillRect(0, 0, (int)getWidth(), (int)getHeight());
-			}
-		}
 	}
 
 	/**
